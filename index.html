@@ -1,0 +1,1323 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>專科投資學 期中考是非題複習練習系統 (第1~7講)</title>
+  <style>
+    :root {
+      --primary: #2563eb;
+      --primary-hover: #1d4ed8;
+      --primary-light: #eff6ff;
+      --success: #16a34a;
+      --success-light: #f0fdf4;
+      --danger: #dc2626;
+      --danger-light: #fef2f2;
+      --warning: #f59e0b;
+      --warning-light: #fffbeb;
+      --bg-body: #f8fafc;
+      --bg-card: #ffffff;
+      --text-main: #0f172a;
+      --text-muted: #64748b;
+      --border: #e2e8f0;
+      --shadow: 0 4px 6px -1px rgb(0 0 0 / 0.07), 0 2px 4px -2px rgb(0 0 0 / 0.05);
+      --shadow-lg: 0 10px 15px -3px rgb(0 0 0 / 0.08), 0 4px 6px -4px rgb(0 0 0 / 0.04);
+      --font-size: 16px;
+    }
+
+    [data-theme="dark"] {
+      --bg-body: #0f172a;
+      --bg-card: #1e293b;
+      --text-main: #f8fafc;
+      --text-muted: #94a3b8;
+      --border: #334155;
+      --primary-light: #1e3a8a;
+      --success-light: #14532d;
+      --danger-light: #7f1d1d;
+      --warning-light: #78350f;
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, "PingFang TC", "Microsoft JhengHei", sans-serif;
+    }
+
+    body {
+      background-color: var(--bg-body);
+      color: var(--text-main);
+      font-size: var(--font-size);
+      line-height: 1.6;
+      transition: background-color 0.25s, color 0.25s;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+    }
+
+    header {
+      background-color: var(--bg-card);
+      border-bottom: 1px solid var(--border);
+      padding: 0.85rem 1.25rem;
+      position: sticky;
+      top: 0;
+      z-index: 50;
+      box-shadow: 0 1px 3px rgba(0,0,0,0.05);
+    }
+
+    .header-inner {
+      max-width: 1000px;
+      margin: 0 auto;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 1rem;
+      flex-wrap: wrap;
+    }
+
+    .header-title {
+      font-size: 1.15rem;
+      font-weight: 700;
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+      color: var(--primary);
+    }
+
+    .header-badge {
+      background: var(--primary-light);
+      color: var(--primary);
+      font-size: 0.75rem;
+      padding: 0.15rem 0.55rem;
+      border-radius: 9999px;
+      font-weight: 600;
+    }
+
+    .header-controls {
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+    }
+
+    button {
+      cursor: pointer;
+      border: 1px solid var(--border);
+      background: var(--bg-card);
+      color: var(--text-main);
+      padding: 0.45rem 0.85rem;
+      border-radius: 8px;
+      font-size: 0.875rem;
+      font-weight: 500;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 0.35rem;
+      transition: all 0.15s ease;
+    }
+
+    button:hover {
+      background: var(--primary-light);
+      border-color: var(--primary);
+      color: var(--primary);
+    }
+
+    button.btn-primary {
+      background: var(--primary);
+      color: #fff;
+      border-color: var(--primary);
+    }
+
+    button.btn-primary:hover {
+      background: var(--primary-hover);
+    }
+
+    .container {
+      max-width: 1000px;
+      margin: 1.5rem auto;
+      padding: 0 1rem;
+      width: 100%;
+      flex: 1;
+    }
+
+    /* Tabs & Mode Bar */
+    .mode-bar {
+      display: flex;
+      background: var(--bg-card);
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      padding: 0.35rem;
+      margin-bottom: 1.25rem;
+      gap: 0.35rem;
+      overflow-x: auto;
+    }
+
+    .mode-btn {
+      flex: 1;
+      min-width: 130px;
+      border: none;
+      background: transparent;
+      padding: 0.6rem 0.75rem;
+      border-radius: 8px;
+      font-weight: 600;
+      color: var(--text-muted);
+      text-align: center;
+      transition: all 0.2s;
+    }
+
+    .mode-btn.active {
+      background: var(--primary);
+      color: #ffffff;
+      box-shadow: 0 2px 4px rgba(37,99,235,0.25);
+    }
+
+    /* Overview Stats bar */
+    .stats-bar {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(130px, 1fr));
+      gap: 0.75rem;
+      margin-bottom: 1.25rem;
+    }
+
+    .stat-card {
+      background: var(--bg-card);
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      padding: 0.75rem 1rem;
+      text-align: center;
+      box-shadow: var(--shadow);
+    }
+
+    .stat-value {
+      font-size: 1.4rem;
+      font-weight: 800;
+      color: var(--primary);
+    }
+
+    .stat-label {
+      font-size: 0.75rem;
+      color: var(--text-muted);
+      margin-top: 0.15rem;
+    }
+
+    /* Main Quiz Card */
+    .quiz-card {
+      background: var(--bg-card);
+      border: 1px solid var(--border);
+      border-radius: 16px;
+      padding: 1.75rem;
+      box-shadow: var(--shadow-lg);
+      margin-bottom: 1.25rem;
+      position: relative;
+    }
+
+    .quiz-card-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 1rem;
+      padding-bottom: 0.75rem;
+      border-bottom: 1px dashed var(--border);
+    }
+
+    .q-number-tag {
+      font-weight: 700;
+      font-size: 1.1rem;
+      color: var(--primary);
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+    }
+
+    .q-actions {
+      display: flex;
+      gap: 0.4rem;
+    }
+
+    .star-btn {
+      background: transparent;
+      border: none;
+      font-size: 1.3rem;
+      color: #cbd5e1;
+      padding: 0.2rem;
+      line-height: 1;
+    }
+
+    .star-btn.active {
+      color: #f59e0b;
+    }
+
+    .question-text {
+      font-size: 1.25rem;
+      font-weight: 600;
+      line-height: 1.7;
+      margin-bottom: 1.5rem;
+      word-break: break-word;
+    }
+
+    /* True / False Buttons */
+    .tf-options {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 1rem;
+      margin-bottom: 1.5rem;
+    }
+
+    .tf-btn {
+      padding: 1.25rem 1rem;
+      border: 2px solid var(--border);
+      border-radius: 14px;
+      background: var(--bg-card);
+      color: var(--text-main);
+      font-size: 1.25rem;
+      font-weight: 700;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      gap: 0.4rem;
+      transition: all 0.18s ease;
+    }
+
+    .tf-btn .symbol {
+      font-size: 2.2rem;
+      line-height: 1;
+    }
+
+    .tf-btn.true-btn:hover {
+      border-color: #22c55e;
+      background: var(--success-light);
+      color: #15803d;
+    }
+
+    .tf-btn.false-btn:hover {
+      border-color: #ef4444;
+      background: var(--danger-light);
+      color: #b91c1c;
+    }
+
+    .tf-btn.selected-true {
+      border-color: #22c55e;
+      background: #22c55e;
+      color: #ffffff;
+      box-shadow: 0 4px 12px rgba(34,197,94,0.3);
+    }
+
+    .tf-btn.selected-false {
+      border-color: #ef4444;
+      background: #ef4444;
+      color: #ffffff;
+      box-shadow: 0 4px 12px rgba(239,68,68,0.3);
+    }
+
+    .tf-btn.correct-highlight {
+      border-color: #16a34a !important;
+      background: var(--success-light) !important;
+      color: #15803d !important;
+      position: relative;
+    }
+
+    .tf-btn.wrong-highlight {
+      border-color: #dc2626 !important;
+      background: var(--danger-light) !important;
+      color: #b91c1c !important;
+    }
+
+    /* Explanation Box */
+    .explanation-box {
+      border-radius: 12px;
+      padding: 1.2rem;
+      margin-top: 1.25rem;
+      display: none;
+      animation: fadeIn 0.3s ease;
+    }
+
+    .explanation-box.correct {
+      background: var(--success-light);
+      border: 1px solid #86efac;
+      color: #14532d;
+    }
+
+    .explanation-box.wrong {
+      background: var(--danger-light);
+      border: 1px solid #fca5a5;
+      color: #7f1d1d;
+    }
+
+    .exp-title {
+      font-weight: 700;
+      font-size: 1.05rem;
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+      margin-bottom: 0.5rem;
+    }
+
+    .exp-content {
+      font-size: 1rem;
+      line-height: 1.65;
+      white-space: pre-line;
+    }
+
+    .exp-correction {
+      background: rgba(255, 255, 255, 0.6);
+      padding: 0.5rem 0.75rem;
+      border-radius: 8px;
+      margin-top: 0.6rem;
+      font-weight: 600;
+      border-left: 4px solid currentColor;
+    }
+
+    /* Nav Buttons Bar */
+    .nav-bar {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 0.75rem;
+      margin-top: 1.25rem;
+      flex-wrap: wrap;
+    }
+
+    .nav-group {
+      display: flex;
+      gap: 0.5rem;
+    }
+
+    /* Question Navigator Drawer / Grid */
+    .grid-container {
+      background: var(--bg-card);
+      border: 1px solid var(--border);
+      border-radius: 14px;
+      padding: 1.25rem;
+      box-shadow: var(--shadow);
+      margin-bottom: 2rem;
+    }
+
+    .grid-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 0.85rem;
+      font-weight: 700;
+      font-size: 0.95rem;
+    }
+
+    .legend-group {
+      display: flex;
+      gap: 0.75rem;
+      font-size: 0.75rem;
+      color: var(--text-muted);
+    }
+
+    .legend-item {
+      display: flex;
+      align-items: center;
+      gap: 0.3rem;
+    }
+
+    .dot {
+      width: 10px;
+      height: 10px;
+      border-radius: 50%;
+      display: inline-block;
+    }
+    .dot.dot-correct { background: var(--success); }
+    .dot.dot-wrong { background: var(--danger); }
+    .dot.dot-current { background: var(--primary); }
+    .dot.dot-starred { background: var(--warning); }
+
+    .q-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(42px, 1fr));
+      gap: 0.45rem;
+    }
+
+    .grid-btn {
+      width: 100%;
+      height: 42px;
+      padding: 0;
+      border-radius: 8px;
+      font-weight: 700;
+      font-size: 0.85rem;
+      position: relative;
+    }
+
+    .grid-btn.current {
+      border: 2px solid var(--primary);
+      box-shadow: 0 0 0 2px var(--primary-light);
+    }
+
+    .grid-btn.correct {
+      background: var(--success-light);
+      border-color: #86efac;
+      color: #15803d;
+    }
+
+    .grid-btn.wrong {
+      background: var(--danger-light);
+      border-color: #fca5a5;
+      color: #b91c1c;
+    }
+
+    .grid-btn.has-star::after {
+      content: "★";
+      position: absolute;
+      top: -2px;
+      right: 2px;
+      font-size: 0.65rem;
+      color: #f59e0b;
+    }
+
+    /* Modal / Result View */
+    .result-view {
+      display: none;
+      background: var(--bg-card);
+      border: 1px solid var(--border);
+      border-radius: 16px;
+      padding: 2rem;
+      text-align: center;
+      box-shadow: var(--shadow-lg);
+      margin-bottom: 2rem;
+    }
+
+    .result-score {
+      font-size: 3.5rem;
+      font-weight: 900;
+      color: var(--primary);
+      margin: 0.5rem 0;
+    }
+
+    .result-breakdown {
+      display: flex;
+      justify-content: center;
+      gap: 2rem;
+      margin: 1.5rem 0;
+      font-size: 1.1rem;
+    }
+
+    .result-actions {
+      display: flex;
+      justify-content: center;
+      gap: 1rem;
+      flex-wrap: wrap;
+      margin-top: 1.5rem;
+    }
+
+    /* Shortcut Help */
+    .shortcut-hint {
+      text-align: center;
+      color: var(--text-muted);
+      font-size: 0.8rem;
+      margin-top: 1rem;
+    }
+
+    .kbd {
+      background: var(--bg-body);
+      border: 1px solid var(--border);
+      border-radius: 4px;
+      padding: 0.1rem 0.35rem;
+      font-size: 0.75rem;
+      font-family: monospace;
+      color: var(--text-main);
+    }
+
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(-4px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    @media (max-width: 640px) {
+      .header-inner { flex-direction: column; align-items: stretch; }
+      .tf-options { grid-template-columns: 1fr; }
+      .question-text { font-size: 1.1rem; }
+      .stat-card { padding: 0.5rem; }
+      .stat-value { font-size: 1.15rem; }
+      .quiz-card { padding: 1.2rem; }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Top Header -->
+  <header>
+    <div class="header-inner">
+      <div class="header-title">
+        <span>📈 專科投資學 期中考是非題練習</span>
+        <span class="header-badge">第 1~7 講 · 35 題</span>
+      </div>
+      <div class="header-controls">
+        <button id="themeToggleBtn" title="切換深淺模式">🌓 主題</button>
+        <button id="fontSizeBtn" title="調整字級">🔤 字體</button>
+        <button id="resetAllBtn" title="清除紀錄並重新開始">🔄 重設進度</button>
+      </div>
+    </div>
+  </header>
+
+  <div class="container">
+
+    <!-- Mode Selector Bar -->
+    <div class="mode-bar">
+      <button class="mode-btn active" data-mode="instant">💡 即時練習模式 (即做即解)</button>
+      <button class="mode-btn" data-mode="exam">⏱️ 模擬考模式 (交卷計分)</button>
+      <button class="mode-btn" data-mode="mistakes">🎯 錯題特訓模式 (<span id="mistakeCountBadge">0</span>)</button>
+      <button class="mode-btn" data-mode="starred">⭐ 收藏題庫 (<span id="starredCountBadge">0</span>)</button>
+    </div>
+
+    <!-- Stats Bar -->
+    <div class="stats-bar">
+      <div class="stat-card">
+        <div class="stat-value" id="progressStat">0 / 35</div>
+        <div class="stat-label">完成題數</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-value" id="accuracyStat">0%</div>
+        <div class="stat-label">答對率</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-value" id="correctCountStat" style="color: var(--success);">0</div>
+        <div class="stat-label">答對題數</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-value" id="wrongCountStat" style="color: var(--danger);">0</div>
+        <div class="stat-label">答錯題數</div>
+      </div>
+    </div>
+
+    <!-- Exam Submit Banner (Exam Mode only) -->
+    <div id="examBanner" style="display:none; background: var(--warning-light); border: 1px solid var(--warning); border-radius: 12px; padding: 0.85rem 1.25rem; margin-bottom: 1.25rem; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 0.5rem;">
+      <div style="font-weight: 600; color: #92400e;">
+        📝 模擬測驗進行中（此模式不會立即公布答案，請作答完畢後點選交卷）
+      </div>
+      <button id="submitExamBtn" class="btn-primary" style="background:#ea580c; border-color:#ea580c;">📥 送出交卷計分</button>
+    </div>
+
+    <!-- Quiz Question Card -->
+    <div class="quiz-card" id="quizCard">
+      <div class="quiz-card-header">
+        <div class="q-number-tag">
+          <span id="currentQBadge">第 1 題</span>
+          <span style="font-size:0.85rem; font-weight:normal; color:var(--text-muted);" id="qTotalRatio">(1 / 35)</span>
+        </div>
+        <div class="q-actions">
+          <button id="starToggleBtn" class="star-btn" title="加入/取消收藏">★</button>
+        </div>
+      </div>
+
+      <!-- Question Text -->
+      <div class="question-text" id="questionText">題目載入中...</div>
+
+      <!-- Answer Options (O or X) -->
+      <div class="tf-options">
+        <button class="tf-btn true-btn" id="btnTrue">
+          <span class="symbol">⭕</span>
+          <span>正確 (O / 是)</span>
+          <span style="font-size:0.75rem; color:var(--text-muted); font-weight:normal;">[按鍵 1 / O / ←]</span>
+        </button>
+        <button class="tf-btn false-btn" id="btnFalse">
+          <span class="symbol">❌</span>
+          <span>錯誤 (X / 非)</span>
+          <span style="font-size:0.75rem; color:var(--text-muted); font-weight:normal;">[按鍵 2 / X / →]</span>
+        </button>
+      </div>
+
+      <!-- Explanation Box -->
+      <div class="explanation-box" id="explanationBox">
+        <div class="exp-title" id="expTitle">
+          <span id="expIcon">✅</span>
+          <span id="expResultText">回答正確</span>
+        </div>
+        <div class="exp-content" id="expExplanation">詳細解析</div>
+        <div class="exp-correction" id="expCorrection" style="display:none;">更正說明</div>
+      </div>
+
+      <!-- Navigation & Control Buttons -->
+      <div class="nav-bar">
+        <div class="nav-group">
+          <button id="prevBtn">⬅️ 上一題</button>
+          <button id="nextBtn">下一題 ➡️</button>
+        </div>
+        <div class="nav-group">
+          <button id="shuffleBtn" title="隨機打亂題目順序">🔀 隨機亂序</button>
+        </div>
+      </div>
+
+      <div class="shortcut-hint">
+        快捷鍵提示：<kbd>1</kbd> 或 <kbd>O</kbd> 選正確、<kbd>2</kbd> 或 <kbd>X</kbd> 選錯誤、<kbd>←</kbd> 上一題、<kbd>→</kbd> 下一題、<kbd>S</kbd> 收藏
+      </div>
+    </div>
+
+    <!-- Exam Result View (Hidden until submitted) -->
+    <div class="result-view" id="resultView">
+      <h2>🎉 測驗完成！成績單</h2>
+      <div class="result-score" id="resultScore">100 分</div>
+      <div class="result-breakdown">
+        <div>總題數：<b id="resTotal">35</b> 題</div>
+        <div style="color:var(--success);">答對：<b id="resCorrect">30</b> 題</div>
+        <div style="color:var(--danger);">答錯：<b id="resWrong">5</b> 題</div>
+      </div>
+      <div id="resultFeedback" style="font-size:1.1rem; margin-bottom:1.5rem; color:var(--text-muted);">
+        觀念非常扎實，期中考準備充分！
+      </div>
+      <div class="result-actions">
+        <button id="reviewMistakesBtn" class="btn-primary">🎯 立即複習錯題</button>
+        <button id="reviewAllExamBtn">📋 查看全題詳細解析</button>
+        <button id="restartExamBtn">🔄 重新測驗一次</button>
+      </div>
+    </div>
+
+    <!-- Question Navigator Drawer -->
+    <div class="grid-container">
+      <div class="grid-header">
+        <span>題號導覽清單</span>
+        <div class="legend-group">
+          <div class="legend-item"><span class="dot dot-current"></span> 目前</div>
+          <div class="legend-item"><span class="dot dot-correct"></span> 正確</div>
+          <div class="legend-item"><span class="dot dot-wrong"></span> 錯誤</div>
+          <div class="legend-item"><span class="dot dot-starred"></span> 收藏</div>
+        </div>
+      </div>
+      <div class="q-grid" id="qGrid"></div>
+    </div>
+
+  </div>
+
+  <script>
+    // --- Complete Question Database (All 35 Questions) ---
+    const RAW_QUESTIONS = [
+      {
+        id: 1,
+        question: "投資名人 巴菲特(Buffett)的波克夏(BRK-A)，其資產配置的投資組合中 90% 是聚焦投資於股票。",
+        answer: false,
+        correction: "更正：約 25%",
+        explanation: "波克夏的資產配置並非 90% 集中於公開市場股票。波克夏擁有龐大的全資控股子公司（涵蓋保險、鐵路、能源、製造與零售等多元實業），並保留巨額現金與短期國庫券以維持高度安全邊際，股票投資組合約占其總體資產配置的 25% 左右。"
+      },
+      {
+        id: 2,
+        question: "華爾街的投資團隊觀察，可以發現世界10大首富中的巴菲特的波克夏(BRK-A) 投資之核心操盤團隊人物約100名，團隊超級龐大。",
+        answer: false,
+        correction: "更正：核心操盤團隊人物約 3 名",
+        explanation: "波克夏總部極度扁平精簡，核心操盤與決策團隊僅約 3 名靈魂人物（長期由巴菲特與已故副董事長蒙格主導，後續加入兩位投資經理 Todd Combs 與 Ted Weschler），並非百人龐大團隊。"
+      },
+      {
+        id: 3,
+        question: "投資人只要公司有提供 資產負債表、損益表，與現金流量表，就可以投資該公司。",
+        answer: false,
+        correction: "更正：要仔細分析三大報表之數據背後意義",
+        explanation: "提供三大報表僅是公開發行公司的基本法定義務，投資人絕不能因為「有提供報表」就盲目投資，而必須仔細分析報表數據背後的真實財務體質、營運品質、獲利能力與現金流量健全度。"
+      },
+      {
+        id: 4,
+        question: "對投資人而言，凱因斯(Keynes)的貨幣需求之三項動機（交易動機、預防動機、投機動機）中，可以用於投資的錢是「交易動機的活動性餘額」。",
+        answer: false,
+        correction: "更正：可以用於投資的錢是「投機動機的閒置性餘額」",
+        explanation: "交易動機與預防動機所持有的貨幣屬於應付日常生活必要開銷與應急儲備（活動性餘額）；唯有滿足了基本需求後，屬於「投機動機的閒置性餘額（閒錢）」才適合投入金融市場承擔風險追求資本利得。"
+      },
+      {
+        id: 5,
+        question: "投資須有彈性，影響投資收益的三大因素是時間、報酬與風險。",
+        answer: true,
+        correction: "",
+        explanation: "影響投資決策與最終收益的三大核心要素即為：時間（投資期限長短與複利效應）、預期報酬率、以及必須承擔的風險程度。"
+      },
+      {
+        id: 6,
+        question: "初級市場(Primary Market)是：證券首次發行(興櫃)與籌資的場所(創投)，企業或政府向投資人發行股票或債券以取得資金。例如：鴻海透過IPO公開募股籌資發展電動車。",
+        answer: true,
+        correction: "",
+        explanation: "初級市場（又稱發行市場）是企業或政府發行新證券以募集新資金的市場。企業透過初級市場向投資大眾籌資，如 IPO（首次公開發行募股）。"
+      },
+      {
+        id: 7,
+        question: "次級市場(Secondary Market)則是：已發行證券的買賣場所，提供流動性與價格發現功能。投資人可在臺灣證券交易所(集中市場)或櫃買中心(店頭市場)買賣股票。",
+        answer: true,
+        correction: "",
+        explanation: "次級市場（流通市場）是投資人彼此買賣已經發行上市櫃證券的場所，提供資金變現的「流動性」以及透過市場供需決定即時價格的「價格發現」功能。"
+      },
+      {
+        id: 8,
+        question: "貨幣市場(Money Market)處理一年以內的短期資金，如：國庫券、商業本票、銀行承兌匯票。",
+        answer: true,
+        correction: "",
+        explanation: "貨幣市場是指融通一年期（含）以內短期資金的金融市場，主要工具包括國庫券、商業本票(CP)、銀行承兌匯票(BA)、銀行可轉讓定期存單(NCD)等，具高流動性與低違約風險特質。"
+      },
+      {
+        id: 9,
+        question: "資本市場(Capital Market)投資標的如股票與公司債，則報酬潛力大但風險也高。",
+        answer: true,
+        correction: "",
+        explanation: "資本市場是籌措一年期以上長期資金的市場，工具以股票和中長期債券為主。相較於貨幣市場，資本市場投資標的價格波動較大、報酬潛力高但風險也相對較高。"
+      },
+      {
+        id: 10,
+        question: "次級市場(IPO後)是指投資人之間 股市買賣轉讓是採(掛單交割)，接受買賣方之市場供需決定浮動價格。",
+        answer: true,
+        correction: "",
+        explanation: "股票在 IPO 發行完成後進入次級市場，投資大眾透過委託掛單、撮合成交與集中交割，價格由市場買賣雙方的實時供需關係決定。"
+      },
+      {
+        id: 11,
+        question: "綠色債券與傳統債券主要差異在於資金用途限制。在投資吸引力方面，綠色債券強調 ESG 原則與永續承諾，吸引責任型與永續導向投資資金。",
+        answer: true,
+        correction: "",
+        explanation: "綠色債券（Green Bonds）募集之資金有嚴格的專款專用限制，必須投入氣候改善、節能減碳、綠能等環保永續專案，並吸引重視 ESG 責任投資的機構與法人青睞。"
+      },
+      {
+        id: 12,
+        question: "股息殖利率(Dividend Yield)則衡量每年發放的股息與股票價格的比率。股息殖利率不同於債券殖利率。",
+        answer: true,
+        correction: "",
+        explanation: "股息殖利率 = 每股現金股利 / 每股市價。股票股利隨公司盈餘與股利政策變動，股價每日浮動；而債券票面利率固定，債券到期殖利率(YTM)反映預期總現金流折現率，兩者機制本質不同。"
+      },
+      {
+        id: 13,
+        question: "股息殖利率(Dividend Yield)來看，「低殖利率」：常見於老成熟型企業，賺錢都配息，提供穩定現金流，適合靠配息生活的人。",
+        answer: false,
+        correction: "更正：「高殖利率」",
+        explanation: "「高殖利率」股票才常見於獲利穩定、市場飽和的老牌成熟型企業。因無大規模擴廠或研發需求，公司會將盈餘大部分以現金股利回饋股東，提供穩定現金流。"
+      },
+      {
+        id: 14,
+        question: "股息殖利率(Dividend Yield)來看，「高殖利率」：變革轉型廠，可能表示公司將盈餘再投資於廠房擴張成長，但風險相對較高。",
+        answer: false,
+        correction: "更正：「低殖利率」",
+        explanation: "「低殖利率」通常見於快速成長型或變革轉型企業。這類公司通常將絕大部分盈餘保留並再投資於資本支出、研發或擴廠，現金股利發放較少甚至不發，因此殖利率偏低。"
+      },
+      {
+        id: 15,
+        question: "老王以每股20元買進1張(1000股)A股票，假設1年後，他以每股 24 元賣出持股，且在投資期間收到每股現金股利0.5元，若不考慮任何交易成本，則其持有A股票1年的報酬率為22.5%。",
+        answer: true,
+        correction: "",
+        explanation: "詳細計算：每股獲利 = 資本利得 (24 - 20) + 現金股利 0.5 = 4.5 元；報酬率 = 4.5 / 20 = 22.5%。故本題敘述完全正確。"
+      },
+      {
+        id: 16,
+        question: "有一投資案在繁榮期報酬率為20%，正常期為12%，蕭條期為-10%，若在三種時期可能性(機率)均相同，則計算其「期望報酬率」為22%。",
+        answer: false,
+        correction: "更正：期望報酬率約為 7.33%",
+        explanation: "詳細計算：三時期機率相同各為 1/3。期望報酬率 E(R) = 0.20*(1/3) + 0.12*(1/3) + (-0.10)*(1/3) = (0.20 + 0.12 - 0.10) / 3 = 0.22 / 3 ≈ 0.0733 (即 7.33%)，非 22%（22% 是直接將分子相加而未除以3的錯誤結果）。"
+      },
+      {
+        id: 17,
+        question: "台股上市個股面對昨夜美股大漲，早上一開盤就開高，盤中漲幅可能越過 15%。",
+        answer: false,
+        correction: "更正：台股每日個股漲跌幅限制為 10%",
+        explanation: "臺灣證券交易所現行法規規定，台股一般上市櫃個股每日最大漲跌幅限制為 10%，因此在正常交易機制下盤中漲幅絕不可能超過 10%（除非是無漲跌幅限制的新股蜜月期）。"
+      },
+      {
+        id: 18,
+        question: "購買00981A，此類型 ETF 是台股中發行之典型指數型 ETF。",
+        answer: false,
+        correction: "更正：00981A 代碼含「A」是主動型 ETF (Active ETF)",
+        explanation: "台股 ETF 代碼末碼加註英文字母「A」代表主動式 ETF（Active ETF），其由經理人主動選股與調整部位以追求打敗大盤超額報酬，非被動追蹤特定基準指數之典型指數型 ETF。"
+      },
+      {
+        id: 19,
+        question: "早上9:00，台股開盤後買入一張 0050，下午銀行 B.K.就通知當日交易繳款。",
+        answer: false,
+        correction: "更正：台股股票交易採「T+2 日」交割機制",
+        explanation: "台股現行交割制度為「T+2」（成交日後的第二個營業日），上午 10:00 前自交割銀行帳戶完成扣款款項交割，絕非交易當日（T日）下午就扣款繳款。"
+      },
+      {
+        id: 20,
+        question: "黃金、白銀、鑽石的投資可以依循配息或利率漲跌而進行估值。",
+        answer: false,
+        correction: "更正：貴金屬與鑽石不發放利息或配息，無法以配息模型估值",
+        explanation: "黃金、白銀、鑽石等實體資產屬於無孳息資產（Non-yielding assets），本身不會產生營運現金流或配發股利，因此無法套用高登成長模型（Gordon Model）等股利折現模型進行本質估值。"
+      },
+      {
+        id: 21,
+        question: "台股行情大好，月薪收入達5萬以上的上班族，應該在理性思考下，勇於將全數收入投入股市投資。",
+        answer: false,
+        correction: "更正：投資應以投機動機的「閒置性餘額（閒錢）」為限，不可投入全數收入",
+        explanation: "依凱因斯貨幣需求理論與健全財務規劃，月薪收入應先扣除滿足日常生活開銷（交易動機）及緊急備用金（預防動機），僅以剩餘的「閒錢」進行投資，避免股市波動引發周轉不靈與被迫停損。"
+      },
+      {
+        id: 22,
+        question: "金融市場投資工具上，期貨選擇權(Option)的基本型態上，「買權」為 Put Option，而「賣權」則為Call Option。",
+        answer: false,
+        correction: "更正：「買權」為 Call Option，「賣權」為 Put Option",
+        explanation: "買權（看漲買入的權利）英文為 Call Option；賣權（看跌賣出的權利）英文為 Put Option，原題英文名稱顛倒。"
+      },
+      {
+        id: 23,
+        question: "判斷債券的投資決策中，票面利率(Coupon Rate)：是發行時的固定年利息比例(以面額為基準)。",
+        answer: true,
+        correction: "",
+        explanation: "票面利率（Coupon Rate）是債券發行時契約明定的固定年利率，發行人每年（或每期）依此利率乘上債券票面面額計算並支付利息。"
+      },
+      {
+        id: 24,
+        question: "判斷債券的投資決策中，債券殖利率(Yield to Maturity, YTM)是考慮市場價格波動、持有期間與債券面額預期收益換算總現金流後的實際報酬率。",
+        answer: true,
+        correction: "",
+        explanation: "到期殖利率(YTM)是使投資人持有債券至到期日所獲得之全部未來現金流量（每期利息＋到期還本）折現值等於當前購買市價的折現率，反映實質年化總報酬率。"
+      },
+      {
+        id: 25,
+        question: "判斷債券的投資決策中，[債券殖利率(Yield) < 票面利率]，表示市場要求較高報酬、反映風險上升或利率升高。",
+        answer: false,
+        correction: "更正：[債券殖利率 > 票面利率] 才表示市場要求較高報酬",
+        explanation: "當市場利率上升或發行機構風險升高時，投資人要求更高報酬率，債券價格會下跌跌破面額（折價發行/買進），此時 [債券殖利率 > 票面利率]。若殖利率 < 票面利率，代表市場接受較低報酬、價格高於面額（溢價）。"
+      },
+      {
+        id: 26,
+        question: "判斷債券的投資決策中，[債券殖利率(Yield) > 票面利率]，表示市場接受較低報酬，偏好該債券安全或利率走低。",
+        answer: false,
+        correction: "更正：應為 [債券殖利率 < 票面利率]",
+        explanation: "當市場利率走低或市場避險需求高追捧該安全債券時，債券市價上漲超過面額（溢價），使得實際 [債券殖利率 < 票面利率]（市場接受較低報酬）。"
+      },
+      {
+        id: 27,
+        question: "投資「黃金」，無法估值未來的理由是黃金不是股票，沒有配發股息可供比對，進行投報率之估值。",
+        answer: true,
+        correction: "",
+        explanation: "黃金本身不會產出現金流量、利息或股利分紅，無法藉由現金流折現法(DCF)計算其內在價值，其價格完全取決於市場供需、通膨預期與地緣政治避險情緒。"
+      },
+      {
+        id: 28,
+        question: "企業面對之系統風險與非系統風險中，非系統性風險是指風險來自：受到利率風險、通貨膨脹造成生產要素成本暴增、匯率難以避險、地緣政治風險影響。",
+        answer: false,
+        correction: "更正：應為「系統性（市場）風險」",
+        explanation: "來自總體經濟環境的因素（如利率走勢、通貨膨脹、匯率劇烈波動、地緣政治危機），會全面影響市場上所有企業且無法透過投資組合分散消除，屬於「系統性風險（市場風險）」。"
+      },
+      {
+        id: 29,
+        question: "企業面對之系統風險與非系統風險中，系統性風險是指風險來自內部不經濟原因：受到管理效能低落、人才流失、內部 R&D 進度遲緩影響。",
+        answer: false,
+        correction: "更正：應為「非系統性（公司內部/個別）風險」",
+        explanation: "來自企業內部的管理不善、研發失敗、罷工、訴訟等特定事件，僅影響單一公司或少數同業，可透過持有多元化資產配置加以分散消除，屬於「非系統性風險」。"
+      },
+      {
+        id: 30,
+        question: "投資學上之歷史報酬率 與 期望報酬率 在本質、時間取向上之計算方式是一樣的。",
+        answer: false,
+        correction: "更正：兩者在本質、時間維度與計算方式完全不同",
+        explanation: "歷史報酬率屬於「事後(Ex-post)」指標，是根據過去已經實際發生的既成數據進行統計結算；而期望報酬率屬於「事前(Ex-ante)」預測指標，是針對未來各種可能發生的情境加權其發生機率計算出的預期平均收益。"
+      },
+      {
+        id: 31,
+        question: "「廣義」的貨幣供給(Ms) 乃指 M1A = 通貨淨額(紙幣+硬幣-銀行庫存現金) + 支票存款 + 活期存款。",
+        answer: false,
+        correction: "更正：M1A 為狹義貨幣供給；「廣義」貨幣供給是指 M2",
+        explanation: "M1A、M1B 均屬於「狹義貨幣供給」；央行定義之「廣義貨幣供給」為 M2 = M1B + 準貨幣（定期存款、定期儲蓄存款、外匯存款、郵政儲金等具有高變現性之資產）。"
+      },
+      {
+        id: 32,
+        question: "股票與債券之間的負相關性使得兩者具有高度的互補性。在資產配置中同時納入股票與債券，兼顧分散風險、平衡報酬，有助於： [資本增值，保本需求]。",
+        answer: true,
+        correction: "",
+        explanation: "股票具高成長與資本增值優勢，債券具穩定息收與保本避險特性。股債呈現負相關或低相關，在資產配置中能有效撫平景氣循環波動，達到「攻守兼備」效果。"
+      },
+      {
+        id: 33,
+        question: "投資策略 採取 由上而下(Top-Down)是掌握適用於景氣擴張或政策主導市場的時期，把握趨勢、掌控系統性風險。",
+        answer: true,
+        correction: "",
+        explanation: "「由上而下」(Top-Down) 投資法從總體經濟分析出發（觀察 GDP、利率、通膨與政府政策），決定資產配置比重，再挑選強勢產業與受惠個股，非常適合掌握總經趨勢與控管系統性風險。"
+      },
+      {
+        id: 34,
+        question: "投資策略 採取 由下而上(Bottom-Up)是掌握適合在選股機會大於整體行情時，聚焦於企業內在價值，把握發掘價值股與成長潛力股。",
+        answer: true,
+        correction: "",
+        explanation: "「由下而上」(Bottom-Up) 投資法跳過總體經濟預測，直接深入分析單一企業的基本面、財務體質、護城河與估值高低，適合在盤整震盪或輕大盤重個股的環境中發掘被低估的潛力黑馬。"
+      },
+      {
+        id: 35,
+        question: "本益比(Price-to-Earnings Ratio, P/E Ratio)是用來衡量股票價格相對於公司每股盈餘的倍數。",
+        answer: true,
+        correction: "",
+        explanation: "本益比 (P/E) = 每股市價 / 每股盈餘(EPS)，代表投資人為了獲取公司每賺 1 元的純益，願意支付多少倍的市場股價，常用於評估股價相對於公司獲利能力的昂貴或便宜程度。"
+      }
+    ];
+
+    // --- State Management ---
+    let currentQuestions = [...RAW_QUESTIONS];
+    let currentIndex = 0;
+    let userAnswers = {};
+    let starredQuestions = new Set();
+    let currentMode = 'instant';
+    let examSubmitted = false;
+    let fontSizeLevel = 1;
+
+    function loadStorage() {
+      try {
+        const savedStarred = localStorage.getItem('inv_quiz_starred');
+        if (savedStarred) starredQuestions = new Set(JSON.parse(savedStarred));
+        
+        const savedAns = localStorage.getItem('inv_quiz_answers');
+        if (savedAns) userAnswers = JSON.parse(savedAns);
+
+        const savedTheme = localStorage.getItem('inv_quiz_theme');
+        if (savedTheme) document.documentElement.setAttribute('data-theme', savedTheme);
+      } catch (e) {
+        console.warn("Storage load error", e);
+      }
+    }
+
+    function saveStorage() {
+      try {
+        localStorage.setItem('inv_quiz_starred', JSON.stringify([...starredQuestions]));
+        localStorage.setItem('inv_quiz_answers', JSON.stringify(userAnswers));
+      } catch (e) {
+        console.warn("Storage save error", e);
+      }
+    }
+
+    function setMode(mode) {
+      currentMode = mode;
+      document.querySelectorAll('.mode-btn').forEach(btn => {
+        btn.classList.toggle('active', btn.dataset.mode === mode);
+      });
+
+      const examBanner = document.getElementById('examBanner');
+      const resultView = document.getElementById('resultView');
+      const quizCard = document.getElementById('quizCard');
+
+      resultView.style.display = 'none';
+      quizCard.style.display = 'block';
+
+      if (mode === 'instant') {
+        currentQuestions = [...RAW_QUESTIONS];
+        examBanner.style.display = 'none';
+        examSubmitted = false;
+      } else if (mode === 'exam') {
+        currentQuestions = [...RAW_QUESTIONS];
+        examBanner.style.display = 'flex';
+        examSubmitted = false;
+      } else if (mode === 'mistakes') {
+        examBanner.style.display = 'none';
+        examSubmitted = false;
+        const mistakeIds = Object.keys(userAnswers).filter(id => userAnswers[id] && !userAnswers[id].isCorrect).map(Number);
+        if (mistakeIds.length === 0) {
+          alert('目前沒有答錯的題目喔！太棒了！');
+          setMode('instant');
+          return;
+        }
+        currentQuestions = RAW_QUESTIONS.filter(q => mistakeIds.includes(q.id));
+      } else if (mode === 'starred') {
+        examBanner.style.display = 'none';
+        examSubmitted = false;
+        if (starredQuestions.size === 0) {
+          alert('目前尚未收藏任何題目，請在題目卡右上角點擊星號 ★ 加入收藏！');
+          setMode('instant');
+          return;
+        }
+        currentQuestions = RAW_QUESTIONS.filter(q => starredQuestions.has(q.id));
+      }
+
+      currentIndex = 0;
+      renderQuestion();
+      renderGrid();
+      updateStats();
+    }
+
+    function renderQuestion() {
+      if (!currentQuestions || currentQuestions.length === 0) return;
+      const q = currentQuestions[currentIndex];
+
+      document.getElementById('currentQBadge').innerText = `第 ${q.id} 題`;
+      document.getElementById('qTotalRatio').innerText = `(${currentIndex + 1} / ${currentQuestions.length})`;
+      document.getElementById('questionText').innerText = q.question;
+
+      const starBtn = document.getElementById('starToggleBtn');
+      starBtn.classList.toggle('active', starredQuestions.has(q.id));
+
+      const btnTrue = document.getElementById('btnTrue');
+      const btnFalse = document.getElementById('btnFalse');
+      btnTrue.className = 'tf-btn true-btn';
+      btnFalse.className = 'tf-btn false-btn';
+
+      const expBox = document.getElementById('explanationBox');
+      const expCorrection = document.getElementById('expCorrection');
+      const record = userAnswers[q.id];
+
+      if (currentMode === 'exam' && !examSubmitted) {
+        expBox.style.display = 'none';
+        if (record) {
+          if (record.selected === true) btnTrue.classList.add('selected-true');
+          if (record.selected === false) btnFalse.classList.add('selected-false');
+        }
+      } else {
+        if (record !== undefined) {
+          if (record.selected === true) {
+            btnTrue.classList.add(record.isCorrect ? 'correct-highlight' : 'wrong-highlight');
+          } else {
+            btnFalse.classList.add(record.isCorrect ? 'correct-highlight' : 'wrong-highlight');
+          }
+
+          if (!record.isCorrect) {
+            if (q.answer === true) btnTrue.classList.add('correct-highlight');
+            else btnFalse.classList.add('correct-highlight');
+          }
+
+          expBox.style.display = 'block';
+          expBox.className = 'explanation-box ' + (record.isCorrect ? 'correct' : 'wrong');
+          document.getElementById('expIcon').innerText = record.isCorrect ? '✅' : '❌';
+          document.getElementById('expResultText').innerText = record.isCorrect 
+            ? `回答正確！正解為【${q.answer ? '⭕ 正確' : '❌ 錯誤'}】`
+            : `回答錯誤！正解應為【${q.answer ? '⭕ 正確' : '❌ 錯誤'}】`;
+          document.getElementById('expExplanation').innerText = q.explanation;
+
+          if (!q.answer && q.correction) {
+            expCorrection.style.display = 'block';
+            expCorrection.innerText = q.correction;
+          } else {
+            expCorrection.style.display = 'none';
+          }
+        } else {
+          expBox.style.display = 'none';
+        }
+      }
+
+      document.getElementById('prevBtn').disabled = (currentIndex === 0);
+      document.getElementById('nextBtn').disabled = (currentIndex === currentQuestions.length - 1);
+
+      updateGridHighlight();
+    }
+
+    function handleAnswer(selectedVal) {
+      const q = currentQuestions[currentIndex];
+      const isCorrect = (selectedVal === q.answer);
+
+      userAnswers[q.id] = {
+        selected: selectedVal,
+        isCorrect: isCorrect
+      };
+
+      saveStorage();
+      updateStats();
+      updateMistakeBadge();
+      renderQuestion();
+      renderGrid();
+    }
+
+    function renderGrid() {
+      const grid = document.getElementById('qGrid');
+      grid.innerHTML = '';
+
+      currentQuestions.forEach((q, idx) => {
+        const btn = document.createElement('button');
+        btn.className = 'grid-btn';
+        btn.innerText = q.id;
+
+        if (starredQuestions.has(q.id)) {
+          btn.classList.add('has-star');
+        }
+
+        const record = userAnswers[q.id];
+        if (record) {
+          if (currentMode === 'exam' && !examSubmitted) {
+            btn.style.backgroundColor = 'var(--primary-light)';
+            btn.style.borderColor = 'var(--primary)';
+          } else {
+            if (record.isCorrect) btn.classList.add('correct');
+            else btn.classList.add('wrong');
+          }
+        }
+
+        if (idx === currentIndex) {
+          btn.classList.add('current');
+        }
+
+        btn.addEventListener('click', () => {
+          currentIndex = idx;
+          renderQuestion();
+        });
+
+        grid.appendChild(btn);
+      });
+    }
+
+    function updateGridHighlight() {
+      const btns = document.querySelectorAll('.grid-btn');
+      btns.forEach((btn, idx) => {
+        btn.classList.toggle('current', idx === currentIndex);
+      });
+    }
+
+    function updateStats() {
+      const totalInBank = RAW_QUESTIONS.length;
+      const answeredKeys = Object.keys(userAnswers);
+      const answeredCount = answeredKeys.length;
+
+      let correctCount = 0;
+      let wrongCount = 0;
+
+      answeredKeys.forEach(k => {
+        if (userAnswers[k].isCorrect) correctCount++;
+        else wrongCount++;
+      });
+
+      document.getElementById('progressStat').innerText = `${answeredCount} / ${totalInBank}`;
+      document.getElementById('correctCountStat').innerText = correctCount;
+      document.getElementById('wrongCountStat').innerText = wrongCount;
+
+      const accuracy = answeredCount > 0 ? Math.round((correctCount / answeredCount) * 100) : 0;
+      document.getElementById('accuracyStat').innerText = `${accuracy}%`;
+    }
+
+    function updateStarredBadge() {
+      document.getElementById('starredCountBadge').innerText = starredQuestions.size;
+    }
+
+    function updateMistakeBadge() {
+      const mistakes = Object.values(userAnswers).filter(ans => !ans.isCorrect).length;
+      document.getElementById('mistakeCountBadge').innerText = mistakes;
+    }
+
+    function submitExam() {
+      const answeredCount = currentQuestions.filter(q => userAnswers[q.id] !== undefined).length;
+      if (answeredCount < currentQuestions.length) {
+        const confirmSubmit = confirm(`您還有 ${currentQuestions.length - answeredCount} 題尚未作答，確定要送出交卷嗎？`);
+        if (!confirmSubmit) return;
+      }
+
+      examSubmitted = true;
+      document.getElementById('examBanner').style.display = 'none';
+
+      let correct = 0;
+      let wrong = 0;
+      currentQuestions.forEach(q => {
+        const rec = userAnswers[q.id];
+        if (rec && rec.isCorrect) correct++;
+        else wrong++;
+      });
+
+      const score = Math.round((correct / currentQuestions.length) * 100);
+
+      document.getElementById('quizCard').style.display = 'none';
+      const resView = document.getElementById('resultView');
+      resView.style.display = 'block';
+
+      document.getElementById('resultScore').innerText = `${score} 分`;
+      document.getElementById('resTotal').innerText = currentQuestions.length;
+      document.getElementById('resCorrect').innerText = correct;
+      document.getElementById('resWrong').innerText = wrong;
+
+      const feedbackEl = document.getElementById('resultFeedback');
+      if (score >= 90) {
+        feedbackEl.innerText = "🌟 太強了！概念掌握極度透徹，期中考肯定十拿九穩！";
+      } else if (score >= 75) {
+        feedbackEl.innerText = "👏 表現很不錯！針對少數答錯的題型進行解析複習，就萬無一失了！";
+      } else if (score >= 60) {
+        feedbackEl.innerText = "💪 及格通過！建議透過「錯題特訓模式」把觀念釐清更正！";
+      } else {
+        feedbackEl.innerText = "⚠️ 觀念需要多加複習喔！請查看錯題解析，逐題建立核心投資學概念！";
+      }
+
+      renderGrid();
+      updateStats();
+    }
+
+    function setupEvents() {
+      document.getElementById('btnTrue').addEventListener('click', () => handleAnswer(true));
+      document.getElementById('btnFalse').addEventListener('click', () => handleAnswer(false));
+
+      document.getElementById('prevBtn').addEventListener('click', () => {
+        if (currentIndex > 0) {
+          currentIndex--;
+          renderQuestion();
+        }
+      });
+      document.getElementById('nextBtn').addEventListener('click', () => {
+        if (currentIndex < currentQuestions.length - 1) {
+          currentIndex++;
+          renderQuestion();
+        }
+      });
+
+      document.getElementById('starToggleBtn').addEventListener('click', () => {
+        const q = currentQuestions[currentIndex];
+        if (starredQuestions.has(q.id)) {
+          starredQuestions.delete(q.id);
+        } else {
+          starredQuestions.add(q.id);
+        }
+        saveStorage();
+        updateStarredBadge();
+        renderQuestion();
+        renderGrid();
+      });
+
+      document.querySelectorAll('.mode-btn').forEach(btn => {
+        btn.addEventListener('click', () => {
+          setMode(btn.dataset.mode);
+        });
+      });
+
+      document.getElementById('shuffleBtn').addEventListener('click', () => {
+        currentQuestions.sort(() => Math.random() - 0.5);
+        currentIndex = 0;
+        renderQuestion();
+        renderGrid();
+      });
+
+      document.getElementById('submitExamBtn').addEventListener('click', submitExam);
+
+      document.getElementById('reviewMistakesBtn').addEventListener('click', () => {
+        setMode('mistakes');
+      });
+      document.getElementById('reviewAllExamBtn').addEventListener('click', () => {
+        document.getElementById('resultView').style.display = 'none';
+        document.getElementById('quizCard').style.display = 'block';
+        currentIndex = 0;
+        renderQuestion();
+      });
+      document.getElementById('restartExamBtn').addEventListener('click', () => {
+        userAnswers = {};
+        saveStorage();
+        setMode('exam');
+      });
+
+      document.getElementById('resetAllBtn').addEventListener('click', () => {
+        if (confirm('確定要清除所有做題紀錄與答題歷史嗎？')) {
+          userAnswers = {};
+          saveStorage();
+          updateStats();
+          updateMistakeBadge();
+          renderQuestion();
+          renderGrid();
+        }
+      });
+
+      document.getElementById('themeToggleBtn').addEventListener('click', () => {
+        const currentTheme = document.documentElement.getAttribute('data-theme');
+        const nextTheme = currentTheme === 'dark' ? 'light' : 'dark';
+        document.documentElement.setAttribute('data-theme', nextTheme);
+        localStorage.setItem('inv_quiz_theme', nextTheme);
+      });
+
+      const fontSizes = ['15px', '16.5px', '18.5px'];
+      document.getElementById('fontSizeBtn').addEventListener('click', () => {
+        fontSizeLevel = (fontSizeLevel + 1) % fontSizes.length;
+        document.documentElement.style.setProperty('--font-size', fontSizes[fontSizeLevel]);
+      });
+
+      window.addEventListener('keydown', (e) => {
+        if (e.target.tagName === 'INPUT' || e.target.tagName === 'TEXTAREA') return;
+
+        if (e.key === '1' || e.key.toLowerCase() === 'o' || e.key === 'ArrowLeft') {
+          handleAnswer(true);
+        } else if (e.key === '2' || e.key.toLowerCase() === 'x' || e.key === 'ArrowRight') {
+          handleAnswer(false);
+        } else if (e.key === 'ArrowUp') {
+          if (currentIndex > 0) { currentIndex--; renderQuestion(); }
+        } else if (e.key === 'ArrowDown' || e.key === ' ' || e.key === 'Enter') {
+          if (currentIndex < currentQuestions.length - 1) { currentIndex++; renderQuestion(); }
+        } else if (e.key.toLowerCase() === 's') {
+          document.getElementById('starToggleBtn').click();
+        }
+      });
+    }
+
+    // Initialize when page loads
+    window.addEventListener('DOMContentLoaded', () => {
+      loadStorage();
+      setupEvents();
+      setMode('instant');
+      updateStarredBadge();
+      updateMistakeBadge();
+    });
+  </script>
+</body>
+</html>
